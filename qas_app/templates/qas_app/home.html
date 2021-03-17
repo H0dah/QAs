@@ -1,0 +1,8 @@
+{% extends "qas_app/base.html" %}
+{% block content %}
+    {% for post in posts %}  
+        <h1>{{ post.question }}</h1>
+          <p> {{ post.answer }}</p>
+    {% endfor %}
+{% endblock content %}
+   
