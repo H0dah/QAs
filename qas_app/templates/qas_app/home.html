@@ -1,8 +1,16 @@
 {% extends "qas_app/base.html" %}
 {% block content %}
-    {% for post in posts %}  
-        <h1>{{ post.question }}</h1>
-          <p> {{ post.answer }}</p>
+    {% for question in questions %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ question.author.profile.image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ question.author }}</a>
+              <small class="text-muted">{{ question.date_posted|date:"F d, Y" }}</small>
+            </div>
+            <h2><a class="article-title" href="#">{{ question.text }}</a></h2>
+            <p class="article-content">{{ question.answer }}</p>
+          </div>
+        </article>
     {% endfor %}
 {% endblock content %}
-   

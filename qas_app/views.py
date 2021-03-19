@@ -1,24 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Question
 
-#dummy data, list of dictionaries 
-posts = [
-    {
-        #'key': 'value'
-        'question': 'what\'s your name',
-        'answer': 'hoda'
-    },
-    {
-        'question': 'what\'s your age',
-        'answer': '22'
-    }
-
-]
 
 def home(request):
+    all_questions = Question.objects.all()
     context = {
-        'posts': posts,
-        'title': 'Feed'
+        'questions': all_questions        
     }
     return render(request, 'qas_app/home.html', context)
 
