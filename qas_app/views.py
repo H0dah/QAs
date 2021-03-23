@@ -1,14 +1,24 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Question
+from django.views.generic import ListView, DetailView
 
 
 def home(request):
-    all_questions = Question.objects.all()
     context = {
-        'questions': all_questions        
+        'questions': Question.objects.all()      
     }
     return render(request, 'qas_app/home.html', context)
+
+class QuestionListView(ListView):
+    model = Question
+    template_name = 'qas_app/home.html' # <app>/<model>_<viewtype>.html
+    context_object_name = 'questions'
+    ordering = ['-date_posted']
+
+class QuestionDetailView(DetailView):
+    model = Question
+
 
 def profile(request):
     return render(request,'qas_app/profile.html', {'title':'profile' } )
