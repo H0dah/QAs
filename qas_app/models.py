@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.urls import reverse
 
 DEFAULT_author_ID = 1
 class Question(models.Model):
@@ -15,3 +16,4 @@ class Question(models.Model):
 
     def get_absolute_url(self):
         return reverse('question-detail', kwargs={'pk': self.pk})
+
