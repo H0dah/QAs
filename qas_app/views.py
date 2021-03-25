@@ -23,7 +23,7 @@ class QuestionListView(ListView):
         
     ordering = ['-date_posted']
     paginate_by = 7
-
+# for questions in user profile page
 class UserQuestionListView(ListView):
     model = Question
     template_name = 'qas_app/user_questions.html' # <app>/<model>_<viewtype>.html
@@ -33,6 +33,16 @@ class UserQuestionListView(ListView):
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return Question.objects.filter(author=user).order_by('-date_posted')
+# for questions that asked to user ( shown in questions page)
+class QuestionsView(ListView):
+    model = Question
+    template_name = 'qas_app/questions.html'
+    context_object_name = 'questions'
+    paginate_by = 7
+
+    def get_queryset(self):
+        user = self.request.user
+        return Question.objects.filter(asked_user=user).filter(answer= '').order_by('-date_posted')
 
 class QuestionDetailView(DetailView):
     model = Question
