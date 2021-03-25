@@ -12,16 +12,15 @@ from django.views.generic import(
 )
 
 
-def home(request):
-    context = {
-        'questions': Question.objects.all()      
-    }
-    return render(request, 'qas_app/home.html', context)
-
 class QuestionListView(ListView):
     model = Question
     template_name = 'qas_app/home.html' # <app>/<model>_<viewtype>.html
     context_object_name = 'questions'
+    
+
+    def get_queryset(self):
+        return Question.objects.all().exclude(answer = '')
+        
     ordering = ['-date_posted']
     paginate_by = 7
 
