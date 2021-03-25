@@ -49,7 +49,7 @@ class QuestionDetailView(DetailView):
 
 class QuestionCreateView(LoginRequiredMixin, CreateView):
     model = Question
-    fields = ['text']
+    fields = ['text', 'asked_user']
     success_url = '/'
 
     def form_valid(self, form):
