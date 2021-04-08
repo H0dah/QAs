@@ -32,7 +32,7 @@ class UserQuestionListView(ListView):
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return Question.objects.filter(author=user).order_by('-date_posted')
+        return Question.objects.filter(asked_user=user).exclude(answer = '').order_by('-date_posted')
 # for questions that asked to user ( shown in questions page)
 class QuestionsView(ListView):
     model = Question
@@ -56,32 +56,18 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Question
-    fields = ['text']
-    success_url = '/'
 
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+class AnswerQuestion(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Question
+    fields = ['answer']
+    success_url = '/questions'
+    template_name = 'qas_app/answer_question.html'
 
     def test_func(self):
         question = self.get_object()
-        if self.request.user == question.author:
+        if self.request.user == question.asked_user:
             return True
         return False
-
-
-class QuestionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = Question
-    success_url = '/'
-
-    def test_func(self):
-        question = self.get_object()
-        if self.request.user == question.author:
-            return True
-        return False
-
 
 
 def profile(request):

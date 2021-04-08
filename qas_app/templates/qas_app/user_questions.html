@@ -1,6 +1,6 @@
 {% extends "qas_app/base.html" %}
 {% block content %}
-    <h1 class="mb-3">Questions by {{ view.kwargs.username}} ({{ page_obj.paginator.count }})</h1>
+    <h1 class="mb-3">Questions asked To {{ view.kwargs.username}} ({{ page_obj.paginator.count }})</h1>
     {% for question in questions %}
         <article class="media content-section">
           <img class="rounded-circle article-img" src="{{ question.author.profile.image.url }}">
