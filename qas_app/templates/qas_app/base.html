@@ -31,6 +31,7 @@
             {% if user.is_authenticated %}
             <a class="nav-item nav-link" href="{% url 'question-create' %}">New Question?</a>
               <a class="nav-item nav-link" href="{% url 'user-profile' user.get_username %}">Profile</a>
+              <a class="nav-item nav-link" href="{% url 'settings' %}">Settings</a>
               <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
               <a class="nav-item nav-link" href="{% url 'questions' %}">Your Questions</a>
 

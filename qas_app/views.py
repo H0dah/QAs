@@ -23,18 +23,7 @@ class QuestionListView(ListView):
         return Question.objects.all().exclude(answer = '').order_by('-date_posted')
         
 
-# user profile page
-class UserProfile(ListView):
-    model = Question
-    template_name = 'qas_app/user_profile.html' # <app>/<model>_<viewtype>.html
-    context_object_name = 'questions'
-    paginate_by = 7
-
-    def get_queryset(self):
-        user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return Question.objects.filter(asked_user=user).exclude(answer = '').order_by('-date_posted')#create field for quetion date 
-
-# for questions that asked to user ( shown in questions page)
+# for questions that asked to loged in user ( shown in questions page)
 class QuestionsView(ListView):
     model = Question
     template_name = 'qas_app/questions.html'
@@ -45,8 +34,10 @@ class QuestionsView(ListView):
         user = self.request.user
         return Question.objects.filter(asked_user=user).filter(answer= '').order_by('-date_posted')
 
+
 class QuestionDetailView(DetailView):
     model = Question
+
 
 class QuestionCreateView(LoginRequiredMixin, CreateView):
     model = Question
@@ -71,14 +62,13 @@ class AnswerQuestion(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return False
 
 
-def profile(request):
-    return render(request,'qas_app/profile.html', {'title':'profile' } )
+# user profile page
+class UserProfile(ListView):
+    model = Question
+    template_name = 'qas_app/user_profile.html' # <app>/<model>_<viewtype>.html
+    context_object_name = 'questions'
+    paginate_by = 7
 
-def inbox(request):
-    return render(request,'qas_app/inbox.html', {'title':'inbox'} )
-
-def friends(request):
-    return render(request,'qas_app/friends.html', {'title':'friends'} )
-
-def notifications(request):
-    return render(request,'qas_app/notifications.html', {'title':'notifications'} )
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Question.objects.filter(asked_user=user).exclude(answer = '').order_by('-date_posted')#create field for quetion date 
