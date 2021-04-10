@@ -1,5 +1,14 @@
 {% extends "qas_app/base.html" %}
 {% block content %}
+  <div class="media">
+  <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+  <div class="media-body">
+      <h2 class="account-heading">{{ user.username }} </h2>
+      <p class="text-secondary">{{ user.email }}</p>
+  </div>
+  </div>
+
+    <h1 class="mb-3">Total Questions ({{ page_obj.paginator.count }})</h1>
     {% for question in questions %}
         <article class="media content-section">
           <img class="rounded-circle article-img" src="{{ question.author.profile.image.url }}">

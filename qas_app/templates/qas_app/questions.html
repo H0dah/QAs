@@ -7,11 +7,11 @@
           <img class="rounded-circle article-img" src="{{ question.author.profile.image.url }}">
           <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="{% url 'user-question' question.author.username %}">{{ question.author }}</a>
+              <a class="mr-2" href="{% url 'user-profile' question.author.username %}">{{ question.author }}</a>
               <small class="text-muted">{{ question.date_posted|date:"F d, Y" }}</small>
             </div>
             <h2><a class="article-title" href="{% url 'question-detail' question.id %}">{{ question.text }}</a></h2>
-            <p class="article-content">{{ question.answer }}</p>
+            <a class="btn btn-info" href="{% url 'answer-question' question.id %}">Answer</a>
           </div> 
         </article>
     {% endfor %}

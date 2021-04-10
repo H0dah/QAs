@@ -11,28 +11,29 @@ from django.views.generic import(
      DeleteView
 )
 
-
+#Questions viewed in Home Page
 class QuestionListView(ListView):
     model = Question
     template_name = 'qas_app/home.html' # <app>/<model>_<viewtype>.html
     context_object_name = 'questions'
-    
+    paginate_by = 7
+
 
     def get_queryset(self):
-        return Question.objects.all().exclude(answer = '')
+        return Question.objects.all().exclude(answer = '').order_by('-date_posted')
         
-    ordering = ['-date_posted']
-    paginate_by = 7
-# for questions in user profile page
-class UserQuestionListView(ListView):
+
+# user profile page
+class UserProfile(ListView):
     model = Question
-    template_name = 'qas_app/user_questions.html' # <app>/<model>_<viewtype>.html
+    template_name = 'qas_app/user_profile.html' # <app>/<model>_<viewtype>.html
     context_object_name = 'questions'
     paginate_by = 7
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return Question.objects.filter(asked_user=user).exclude(answer = '').order_by('-date_posted')
+        return Question.objects.filter(asked_user=user).exclude(answer = '').order_by('-date_posted')#create field for quetion date 
+
 # for questions that asked to user ( shown in questions page)
 class QuestionsView(ListView):
     model = Question

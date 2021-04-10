@@ -24,7 +24,6 @@ from django.views.generic import RedirectView
 
 
 urlpatterns = [
-    path('', include('qas_app.urls')),
     path('admin/', admin.site.urls),
     path('register/', user_views.register, name='register'),
     path('profile/', user_views.profile, name='profile'),
@@ -42,6 +41,8 @@ urlpatterns = [
     path('password-reset-complete/<uidb64>/<token>/',
         auth_views.PasswordResetCompleteView.as_view(template_name = 'users/password_reset_complete.html'),
         name='password_reset_complete'),
+    path('', include('qas_app.urls')),
+
 ] 
 
 
