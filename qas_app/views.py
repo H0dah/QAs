@@ -20,7 +20,7 @@ class QuestionListView(ListView):
 
 
     def get_queryset(self):
-        return Question.objects.all().exclude(answer = '').order_by('-date_posted')
+        return Question.objects.all().exclude(answer = '').order_by('-date_answered')
         
 
 # for questions that asked to loged in user ( shown in questions page)
@@ -71,4 +71,4 @@ class UserProfile(ListView):
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return Question.objects.filter(asked_user=user).exclude(answer = '').order_by('-date_posted')#create field for quetion date 
+        return Question.objects.filter(asked_user=user).exclude(answer = '').order_by('-date_answered')#create field for quetion date 

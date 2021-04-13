@@ -15,10 +15,10 @@
           <div class="media-body">
             <div class="article-metadata">
               <a class="mr-2" href="{% url 'user-profile' question.author.username %}">{{ question.author }}</a>
-              <small class="text-muted">{{ question.date_posted|date:"F d, Y" }}</small>
             </div>
             <h2><a class="article-title" href="{% url 'question-detail' question.id %}">{{ question.text }}</a></h2>
             <p class="article-content">{{ question.answer }}</p>
+            <small class="text-muted">{{ question.date_answered|date:"F d, Y" }}</small>
           </div> 
         </article>
     {% endfor %}

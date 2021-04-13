@@ -9,6 +9,7 @@ class Question(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     asked_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'asked')
     date_posted = models.DateTimeField(default=timezone.now)
+    date_answered = models.DateTimeField(auto_now=True)
 
 
     def __str__(self):
