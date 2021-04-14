@@ -2,14 +2,15 @@
 {% block content %}
     {% for question in questions %}
         <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ question.author.profile.image.url }}">
           <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="{% url 'user-profile' question.author.username %}">{{ question.author }}</a>
             </div>
-            <h2><a class="article-title" href="{% url 'question-detail' question.id %}">{{ question.text }}</a></h2>
+            <h2>{{ question.text }}<a class="mr-2" href="{% url 'user-profile' question.author.username %}">{{ question.author }}</a></h2>
+            <img class="rounded-circle article-img" src="{{ question.asked_user.profile.image.url }}">
+            <a class="mr-2" href="{% url 'user-profile' question.asked_user.username %}">{{ question.asked_user }}</a>
+            <br>
+            <a class="text-muted" href="{% url 'question-detail' question.id %}">{{ question.date_answered|date:"F d, Y" }}</a> 
             <p class="article-content">{{ question.answer }}</p>
-            <small class="text-muted">{{ question.date_answered|date:"F d, Y" }}</small>
 
           </div> 
         </article>
