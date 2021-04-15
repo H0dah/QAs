@@ -65,10 +65,15 @@ class AnswerQuestion(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 # user profile page
 class UserProfile(ListView):
     model = Question
-    template_name = 'qas_app/user_profile.html' # <app>/<model>_<viewtype>.html
-    context_object_name = 'questions'
+    template_name = 'qas_app/user_profile.html'
     paginate_by = 7
+
+    def get_context_data(self,*args, **kwargs):
+        context = super().get_context_data(*args,**kwargs)
+        context['user_object']= User.objects.get(username=self.kwargs.get('username'))
+        return context
+        
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return Question.objects.filter(asked_user=user).exclude(answer = '').order_by('-date_answered')#create field for quetion date 
+        return Question.objects.filter(asked_user=user).exclude(answer = '').order_by('-date_answered')
