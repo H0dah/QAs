@@ -1,6 +1,22 @@
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+
+User = settings.AUTH_USER_MODEL
+
+
+@receiver(post_save, sender=User)
+def user_post_save_reciever(sender, instance, created, *args, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+        
+        print("profile", instance.username, "created")
+
+
+
 
 
 class Profile(models.Model):
@@ -10,7 +26,7 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.user.username} Profile'
 
-    def save(self):
+    def save(self, *args, **kwargs):
         super().save()
 
         img = Image.open(self.image.path)
