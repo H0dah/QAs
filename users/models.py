@@ -5,20 +5,6 @@ from PIL import Image
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
-User = settings.AUTH_USER_MODEL
-
-
-@receiver(post_save, sender=User)
-def user_post_save_reciever(sender, instance, created, *args, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-        
-        print("profile", instance.username, "created")
-
-
-
-
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
