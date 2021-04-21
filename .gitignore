@@ -3,4 +3,3 @@
 __pycache__/
 *.jpg
 db.sqlite3
-*.py
