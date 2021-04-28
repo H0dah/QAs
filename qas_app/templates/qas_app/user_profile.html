@@ -7,7 +7,12 @@
       <p class="text-secondary">{{ user_object.email }}</p>
   </div>
   </div>
-
+  <div>
+    {% if request.user.id != user_object.id %}
+      <a href="{% url 'send-friend-request' user_object.id %}">Send Friend Request</a>
+    {% endif %}
+  </div>
+  
     <h1 class="mb-3">Total Questions ({{ page_obj.paginator.count }})</h1>
     {% for question in question_list %}
     <article class="media content-section">

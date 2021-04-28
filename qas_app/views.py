@@ -2,7 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from .models import Question
+from .models import Question, Friend_Request
+from django.contrib.auth.decorators import login_required
 from django.views.generic import(
      ListView,
      DetailView,
@@ -77,3 +78,35 @@ class UserProfile(ListView):
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return Question.objects.filter(asked_user=user).exclude(answer = '').order_by('-date_answered')
+
+
+
+@login_required
+def send_friend_request(request, userID):
+
+    to_user = User.objects.get(id=userID)
+
+    #when user try to send request to himslef, Security Consideration :)) 
+    if request.user == to_user:
+        return HttpResponse('friend request sent')
+
+    _, created = Friend_Request.objects.get_or_create(
+        from_user=request.user, to_user=to_user
+    )
+    if created:
+        return HttpResponse('friend request sent')
+
+    else:
+        return HttpResponse('friend request was already sent')
+
+#need editing dude :) 
+@login_required
+def accept_friend_request(request, requestID):
+    friend_request = Friend_Request.objects.get(id=requestID)
+    if friend_request.to_user == request.user:
+        friend_request.to_user.friends.add(friend_request.from_user)
+        friend_request.from_user.friends.add(friend_request.to_user)
+        friend_request.delete()
+        return HttpResponse('friend request accepted')
+    else:
+        return HttpResponse('friend request not accepted')
